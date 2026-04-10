@@ -55,31 +55,66 @@
   setStaggerDelays(".cert-stagger", 90);
 
   var revealEls = document.querySelectorAll(".fade-up");
+
+  function revealNow(el) {
+    el.classList.add("in-view");
+  }
+
+  /** True if any part of the element is inside the viewport (mobile-safe). */
+  function isInViewport(el) {
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    return r.bottom > 0 && r.top < vh && r.right > 0 && r.left < vw;
+  }
+
+  function revealAllPending() {
+    document.querySelectorAll(".fade-up:not(.in-view)").forEach(revealNow);
+  }
+
   if (!reduceMotion) {
     if (revealEls.length && "IntersectionObserver" in window) {
       var io = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              entry.target.classList.add("in-view");
+              revealNow(entry.target);
               io.unobserve(entry.target);
             }
           });
         },
-        { root: null, rootMargin: "0px 0px -6% 0px", threshold: 0.08 }
+        {
+          root: null,
+          /* Expand bottom so short phone viewports still fire; threshold 0 = any pixel */
+          rootMargin: "0px 0px 18% 0px",
+          threshold: 0
+        }
       );
       revealEls.forEach(function (el) {
-        io.observe(el);
+        if (isInViewport(el)) {
+          revealNow(el);
+        } else {
+          io.observe(el);
+        }
+      });
+      /* iOS / slow paint: second pass after layout */
+      requestAnimationFrame(function () {
+        revealEls.forEach(function (el) {
+          if (!el.classList.contains("in-view") && isInViewport(el)) {
+            revealNow(el);
+            io.unobserve(el);
+          }
+        });
       });
     } else {
-      revealEls.forEach(function (el) {
-        el.classList.add("in-view");
-      });
+      revealEls.forEach(revealNow);
     }
+    /* Last resort: never leave content invisible if IO missed */
+    window.setTimeout(function () {
+      revealAllPending();
+    }, 2400);
   } else {
-    revealEls.forEach(function (el) {
-      el.classList.add("in-view");
-    });
+    revealEls.forEach(revealNow);
   }
 
   /* --- Subtle 3D tilt on project cards (pointer devices only) --- */
