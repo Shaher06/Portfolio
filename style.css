@@ -883,41 +883,83 @@ h2 {
 }
 
 .footer .email {
-  margin: 15px auto 5px;
+  margin: 15px auto 10px;
+  max-width: 100%;
+  padding: 0 6px;
+}
+
+.footer .email a {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-shadow: 0 0 12px var(--accent);
 }
 
 .footer .social {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 14px 18px;
-  margin: 20px auto 8px;
-  padding: 0;
+  justify-content: safe center;
+  gap: 12px;
+  margin: 16px auto 8px;
+  padding: 10px 4px;
   list-style: none;
   max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.footer .social::-webkit-scrollbar {
+  display: none;
 }
 
 .footer .social li {
   margin: 0;
   padding: 0;
   list-style: none;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 }
 
-.footer .email a {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.footer .footer-social-wa {
+  gap: 10px;
+  padding-right: 4px;
+  margin-right: 2px;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.footer .email a {
-  text-shadow: 0 0 12px var(--accent);
+.footer .whatsapp-digits {
+  color: #e6eef6;
+  font-size: clamp(0.8rem, 3.1vw, 0.92rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  padding: 6px 2px;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  -webkit-tap-highlight-color: rgba(37, 211, 102, 0.2);
+}
+
+.footer .whatsapp-digits:active,
+.footer .whatsapp-digits:hover {
+  color: #25d366;
 }
 
 .footer .social-icon {
-  width: var(--tap-min);
-  height: var(--tap-min);
-  min-width: var(--tap-min);
-  min-height: var(--tap-min);
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1085,8 +1127,10 @@ button:focus {
   }
 
   .navbar ul {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: stretch;
     gap: 8px;
     padding: 0;
     width: 100%;
@@ -1094,27 +1138,30 @@ button:focus {
   }
 
   .navbar li {
-    min-width: 0;
+    flex: 1 1 calc((100% - 8px) / 2);
+    min-width: calc((100% - 8px) / 2);
+    max-width: calc((100% - 8px) / 2);
+    box-sizing: border-box;
   }
 
   .navbar a {
-    white-space: nowrap;
+    white-space: normal;
     width: 100%;
-    padding: 10px 6px;
-    min-height: 44px;
+    padding: 10px 8px;
+    min-height: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    font-size: clamp(0.7rem, 2.8vw, 0.8125rem);
+    font-size: clamp(0.72rem, 3.1vw, 0.875rem);
     font-weight: 600;
     letter-spacing: 0.01em;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.07);
     text-align: center;
-    line-height: 1.15;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.2;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   .navbar a:hover {
@@ -1276,6 +1323,28 @@ button:focus {
 }
 
 @media (max-width: 480px) {
+  .footer .email {
+    line-height: 1.45;
+  }
+
+  .footer .email a {
+    font-size: max(0.8rem, 2.85vw);
+    letter-spacing: -0.015em;
+  }
+
+  .footer .social {
+    gap: 10px;
+    padding-left: max(6px, var(--safe-left));
+    padding-right: max(6px, var(--safe-right));
+  }
+
+  .footer .social-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+
   section {
     padding: 16px 14px;
     border-radius: 12px;
