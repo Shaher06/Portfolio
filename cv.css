@@ -142,8 +142,10 @@ body{
   flex-wrap:wrap;
 }
 .profile-pic{
-  width:170px;
-  height:170px;
+  max-width:100%;
+  width:min(170px,100%);
+  height:auto;
+  aspect-ratio:1;
   border-radius:50%;
   border:6px solid rgba(6,182,212,0.16);
   object-fit:cover;
@@ -262,7 +264,8 @@ h2{ text-align:center; margin-bottom:14px; color:var(--text); font-size:20px }
 }
 .project-card img{
   width:100%;
-  max-width:360px;
+  max-width:min(360px,100%);
+  height:auto;
   border-radius:8px;
   object-fit:cover;
   transition: transform var(--ease-med), filter var(--ease-med);
@@ -324,7 +327,7 @@ h2{ text-align:center; margin-bottom:14px; color:var(--text); font-size:20px }
   transition: transform var(--ease-med), box-shadow var(--ease-med);
 }
 .cert-card:hover{ transform: translateY(-10px); box-shadow: 0 30px 90px rgba(6,182,212,0.12) }
-.cert-photo{ width:100%; max-width:300px; border-radius:8px; display:block; margin:10px auto; }
+.cert-photo{ width:100%; max-width:min(300px,100%); height:auto; object-fit:cover; border-radius:8px; display:block; margin:10px auto; }
 
 /* --- Footer --- */
 .footer{
@@ -372,16 +375,16 @@ a:focus, button:focus{
 
 /* Responsive */
 @media (max-width: 1000px){
-  .profile-pic{ width:140px; height:140px }
+  .profile-pic{ width:min(140px,100%) }
   .cert-grid{ grid-template-columns: repeat(2, 1fr) }
 }
 @media (max-width:720px){
   .profile-pic-wrapper{ flex-direction:column; align-items:center }
-  .profile-pic{ width:120px; height:120px }
+  .profile-pic{ width:min(120px,100%) }
   .cert-grid{ grid-template-columns: 1fr }
 }
 @media (max-width:420px){
-  .profile-pic{ width:100px; height:100px }
+  .profile-pic{ width:min(100px,100%) }
 }
 
 /* Reduce motion */
